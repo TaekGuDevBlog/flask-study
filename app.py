@@ -1,10 +1,11 @@
+from datetime import datetime, timedelta
+from functools import wraps
+
 import bcrypt
 import jwt
-from datetime import datetime, timedelta
 from flask import Flask, request, jsonify, current_app, Response, g
 from flask.json import JSONEncoder
 from flask_cors import CORS
-from functools import wraps
 from sqlalchemy import create_engine, text
 
 
@@ -212,22 +213,23 @@ def create_app(test_config=None):
 
     @app.route('/login', methods=['POST'])
     def login():
-        credential      = request.json
-        email           = credential['email']
-        password        = credential['password']
+        credential = request.json
+        email = credential['email']
+        password = credential['password']
         user_credential = get_user_id_and_password(email)
 
-        if user_credential and bcrypt.checkpw(password.encode('UTF-8'), user_credential['hashed_password'].encode('UTF-8')):
+        if user_credential and bcrypt.checkpw(password.encode('UTF-8'),
+                                              user_credential['hashed_password'].encode('UTF-8')):
             user_id = user_credential['id']
             payload = {
-                'user_id' : user_id,
-                'exp'     : datetime.utcnow() + timedelta(seconds = 60 * 60 * 24)
+                'user_id': user_id,
+                'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)
             }
             token = jwt.encode(payload, app.config['JWT_SECRET_KEY'], 'HS256')
             bytes_token = bytes(token, 'utf-8')
             return jsonify({
-                'user_id'      : user_id,
-                'access_token' : bytes_token.decode('utf-8')
+                'user_id': user_id,
+                'access_token': bytes_token.decode('utf-8')
             })
         else:
             return '', 401
