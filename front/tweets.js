@@ -68,6 +68,7 @@ $(document).ready(function() {
         'Authorization': accessToken
       },
       data: JSON.stringify({
+        "id" : userId,
         "tweet" : tweet
       }),
       contentType: 'application/json'
