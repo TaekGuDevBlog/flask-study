@@ -10,7 +10,7 @@ if __name__ == "__main__":
     twisted = Twisted(app)
     log.startLogging(sys.stdout)
 
-    app.logeger.info(f"Running the App..")
+    app.logger.info(f"Running the App..")
 
     manager = Manager(app)
     manager.run()
