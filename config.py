@@ -13,7 +13,7 @@ test_db = {
     'password' : 'root',
     'host'     : 'localhost',
     'port'     : 3306,
-    'database' : 'miniter_test'
+    'database' : 'miniter'
 }
 
 test_config = {
